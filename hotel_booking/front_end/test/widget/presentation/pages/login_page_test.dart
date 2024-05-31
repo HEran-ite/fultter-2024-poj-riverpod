@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import '../../../lib/presentation/pages/home_page.dart';
-import '../../../lib/presentation/pages/login_page.dart';
-import '../../../lib/presentation/pages/signup_page.dart';
-import '../../../lib/presentation/widgets/textfiels.dart';
+import 'package:hotel_booking/presentation/pages/home_page.dart';
+import 'package:hotel_booking/presentation/pages/login_page.dart';
+import 'package:hotel_booking/presentation/pages/signup_page.dart';
+import 'package:hotel_booking/presentation/widgets/textfiels.dart';
 
 void main() {
   testWidgets('LoginPage has Email and Password TextFields and Login Button',

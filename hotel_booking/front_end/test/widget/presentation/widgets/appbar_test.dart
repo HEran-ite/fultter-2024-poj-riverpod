@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import '../../../lib/presentation/pages/login_page.dart';
-import '../../../lib/presentation/widgets/appbar.dart';
+import 'package:hotel_booking/presentation/pages/login_page.dart';
+import 'package:hotel_booking/presentation/widgets/appbar.dart';
 
 void main() {
   Widget createWidgetForTesting(Widget child) {

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../lib/presentation/pages/admin_page.dart';
-import '../../../lib/presentation/pages/home_page.dart';
-import '../../../lib/presentation/pages/login_page.dart';
-import '../../../lib/presentation/pages/signup_page.dart';
-import '../../../lib/presentation/widgets/textfiels.dart';
+import 'package:hotel_booking/presentation/pages/admin_page.dart';
+import 'package:hotel_booking/presentation/pages/home_page.dart';
+import 'package:hotel_booking/presentation/pages/login_page.dart';
+import 'package:hotel_booking/presentation/pages/signup_page.dart';
+import 'package:hotel_booking/presentation/widgets/textfiels.dart';
 
 void main() {
   Widget createWidgetForTesting(Widget child) {

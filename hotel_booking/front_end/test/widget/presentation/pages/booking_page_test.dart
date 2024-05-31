@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import '../../../lib/presentation/pages/booking_page.dart';
-import '../../../lib/presentation/widgets/appbar.dart';
-import '../../../lib/presentation/widgets/drawer.dart';
+import 'package:hotel_booking/presentation/pages/booking_page.dart';
+import 'package:hotel_booking/presentation/widgets/appbar.dart';
+import 'package:hotel_booking/presentation/widgets/drawer.dart';
 
 void main() {
   testWidgets('BookingPage renders correctly and allows booking',

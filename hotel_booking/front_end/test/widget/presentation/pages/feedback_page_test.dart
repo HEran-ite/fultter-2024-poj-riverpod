@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../lib/presentation/pages/feedback_page.dart';
-import '../../../lib/presentation/widgets/appbar.dart';
-import '../../../lib/presentation/widgets/drawer.dart';
+import "package:hotel_booking/presentation/pages/feedback_page.dart";
+import 'package:hotel_booking/presentation/widgets/appbar.dart';
+import 'package:hotel_booking/presentation/widgets/drawer.dart';
 
 void main() {
   Widget createWidgetForTesting(Widget child) {
