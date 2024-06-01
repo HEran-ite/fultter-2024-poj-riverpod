@@ -10,7 +10,7 @@ import { User } from 'src/auth/user/schemas/user.schema';
 export class FeedbackService {
   constructor(@InjectModel(Feedback.name) private feedbackModel: Model<FeedbackDocument>) {}
 
-  async create(createFeedbackDto: CreateFeedbackDto ,user :User): Promise<Feedback> {
+  async create(createFeedbackDto: CreateFeedbackDto, user: User): Promise<Feedback> {
     const feedbackData = Object.assign(createFeedbackDto, { user: user._id });
     const createdFeedback = new this.feedbackModel(feedbackData);
     return createdFeedback.save();
@@ -21,14 +21,31 @@ export class FeedbackService {
   }
 
   async update(id: string, updateFeedbackDto: UpdateFeedbackDto, user: User): Promise<Feedback> {
-    // Ensure that only feedback created by the authenticated user can be updated
     const filter = { _id: id, user: user._id };
-    return this.feedbackModel.findOneAndUpdate(filter, updateFeedbackDto, { new: true }).exec();
+    console.log('Update Filter:', filter);
+    console.log('Update DTO:', updateFeedbackDto);
+
+    const updatedFeedback = await this.feedbackModel.findOneAndUpdate(filter, updateFeedbackDto, { new: true }).exec();
+    console.log('Updated Feedback:', updatedFeedback);
+
+    if (!updatedFeedback) {
+      throw new Error('Feedback not found or not authorized to update');
+    }
+
+    return updatedFeedback;
   }
 
   async delete(id: string, user: User): Promise<any> {
-    // Ensure that only feedback created by the authenticated user can be deleted
     const filter = { _id: id, user: user._id };
-    return this.feedbackModel.findOneAndDelete(filter).exec();
+    console.log('Delete Filter:', filter);
+
+    const deletedFeedback = await this.feedbackModel.findOneAndDelete(filter).exec();
+    console.log('Deleted Feedback:', deletedFeedback);
+
+    if (!deletedFeedback) {
+      throw new Error('Feedback not found or not authorized to delete');
+    }
+
+    return deletedFeedback;
   }
 }

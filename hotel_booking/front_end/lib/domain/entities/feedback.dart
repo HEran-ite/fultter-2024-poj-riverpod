@@ -1,31 +1,30 @@
-// domain/entities/feedback.dart
 class AppFeedback {
   final String? id;
   final String user;
-  final String comment;
+  final String message;
   final int rating;
 
   AppFeedback({
     this.id,
     required this.user,
-    required this.comment,
+    required this.message,
     required this.rating,
   });
 
   factory AppFeedback.fromJson(Map<String, dynamic> json) {
     return AppFeedback(
       id: json['_id'],
-      user: json['user'],
-      comment: json['comment'],
+      user: json['customerName'],
+      message: json['message'],
       rating: json['rating'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'user': user,
-      'comment': comment,
+      '_id': id,
+      'customerName': user,
+      'message': message,
       'rating': rating,
     };
   }

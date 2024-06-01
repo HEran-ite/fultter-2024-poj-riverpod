@@ -24,7 +24,8 @@ export class RoomController {
     @Body() room: CreateRoomDto,
     @Req() req
   ): Promise<Room> {
-    console.log(req.user);
+    console.log('Create Room Request:', room); // Log the request body
+    console.log('User:', req.user); 
     return this.roomService.create(room, req.user);
   }
 

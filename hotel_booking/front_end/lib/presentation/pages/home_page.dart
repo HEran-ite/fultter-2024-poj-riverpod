@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
+import 'package:hotel_booking/presentation/providers/user_provider.dart';
 import 'package:hotel_booking/presentation/widgets/appbar.dart';
 import 'package:hotel_booking/presentation/widgets/drawer.dart';
 import 'booking_page.dart';
@@ -21,7 +22,7 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     Size screenSize = MediaQuery.of(context).size;
     final imageList = ref.watch(imageListProvider);
-
+    final user = ref.watch(userProvider);
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 252, 241, 230),
       appBar: AppAppBar(),
@@ -81,3 +82,5 @@ class HomePage extends ConsumerWidget {
     );
   }
 }
+
+

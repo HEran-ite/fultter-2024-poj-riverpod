@@ -1,9 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
-class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hotel_booking/application/use_cases/user_api_provider.dart';
+import 'package:hotel_booking/presentation/providers/user_provider.dart';
+
+class AppAppBar extends ConsumerWidget implements PreferredSizeWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) { // Add WidgetRef parameter
+    final userNotifier = ref.read(userProvider.notifier);
     return AppBar(
       title: const Text(
         'Oasis Hotel',
@@ -16,7 +21,8 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         IconButton(
           icon: const Icon(Icons.logout),
-          onPressed: () {
+          onPressed: () async {
+            await userNotifier.logout();
             context.go('/login_page');
           },
         ),

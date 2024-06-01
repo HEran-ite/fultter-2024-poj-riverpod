@@ -1,5 +1,3 @@
-// lib/domain/repositories/booking_repository.dart
-
 import 'package:hotel_booking/domain/entities/booking.dart';
 
 abstract class BookingRepository {
@@ -8,3 +6,5 @@ abstract class BookingRepository {
   Future<void> updateBooking(String id, Booking booking);
   Future<void> deleteBooking(String id);
 }
+
+

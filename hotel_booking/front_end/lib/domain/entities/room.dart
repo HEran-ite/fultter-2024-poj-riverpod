@@ -1,41 +1,28 @@
 class RoomCategory {
   final String id;
   final String title;
-  final List<String> images;
-  final List<String> descriptions;
-  final List<int> prices;
+  final String image;
+  final String description;
+  final int price;
+  final String category; // Add this field
 
   RoomCategory({
     required this.id,
     required this.title,
-    required this.images,
-    required this.descriptions,
-    required this.prices,
+    required this.image,
+    required this.description,
+    required this.price,
+    required this.category, // Add this field
   });
-
-  RoomCategory copyWith({
-    String? id,
-    String? title,
-    List<String>? images,
-    List<String>? descriptions,
-    List<int>? prices,
-  }) {
-    return RoomCategory(
-      id: id ?? this.id,
-      title: title ?? this.title,
-      images: images ?? this.images,
-      descriptions: descriptions ?? this.descriptions,
-      prices: prices ?? this.prices,
-    );
-  }
 
   factory RoomCategory.fromJson(Map<String, dynamic> json) {
     return RoomCategory(
-      id: json['_id'],
-      title: json['title'],
-      images: List<String>.from(json['images']),
-      descriptions: List<String>.from(json['descriptions']),
-      prices: List<int>.from(json['prices'].map((price) => int.parse(price.toString()))),
+      id: json['_id'] ?? '',
+      title: json['title'] ?? '',
+      image: json['image'] ?? '',
+      description: json['description'] ?? '',
+      price: json['price'] ?? 0,
+      category: json['category'] ?? '', // Add this field
     );
   }
 
@@ -43,9 +30,10 @@ class RoomCategory {
     return {
       '_id': id,
       'title': title,
-      'images': images,
-      'descriptions': descriptions,
-      'prices': prices.map((price) => price.toString()).toList(),
+      'image': image,
+      'description': description,
+      'price': price,
+      'category': category, // Add this field
     };
   }
 }

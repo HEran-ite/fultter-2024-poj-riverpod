@@ -1,4 +1,3 @@
-// lib/domain/entities/booking.dart
 class Booking {
   final String? id;
   final String title;
@@ -32,13 +31,13 @@ class Booking {
 
   factory Booking.fromJson(Map<String, dynamic> json) {
     return Booking(
-      id: json['_id'],
-      title: json['title'],
-      image: json['image'],
-      description: json['description'],
-      price: json['price'],
-      bookingDate: json['bookingDate'] != null ? DateTime.parse(json['bookingDate']) : null,
-      user: json['user'],
+      id: json['_id'] as String?,
+      title: json['title'] as String,
+      image: json['image'] as String,
+      description: json['description'] as String,
+      price: json['price'] as int,
+      bookingDate: json['bookingDate'] != null ? DateTime.parse(json['bookingDate']).toUtc() : null,
+      user: json['user'] is Map<String, dynamic> ? json['user']['_id'] as String : json['user'] as String?,
     );
   }
 
@@ -49,7 +48,7 @@ class Booking {
       'image': image,
       'description': description,
       'price': price,
-      'bookingDate': bookingDate?.toIso8601String(),
+      'bookingDate': bookingDate?.toUtc().toIso8601String(),
       'user': user,
     };
   }

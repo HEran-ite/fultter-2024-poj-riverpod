@@ -1,20 +1,14 @@
-// lib/presentation/widgets/booking_card.dart
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hotel_booking/domain/entities/booking.dart';
-import 'package:hotel_booking/presentation/providers/booking_provider.dart';
+import 'package:hotel_booking/domain/entities/room.dart';
 
 class BookingCard extends StatelessWidget {
-  final BuildContext context;
-  final WidgetRef ref;
-  final Map<String, dynamic> category;
-  final int index;
+  final RoomCategory category;
+  final VoidCallback showDatePickerCallback;
 
   BookingCard({
-    required this.context,
-    required this.ref,
     required this.category,
-    required this.index,
+    required this.showDatePickerCallback,
   });
 
   @override
@@ -31,15 +25,15 @@ class BookingCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Image.asset(
-              category['images'][index],
+            Image.memory(
+              base64Decode(category.image),
               height: 200,
               width: double.infinity,
               fit: BoxFit.cover,
             ),
             const Divider(color: Color.fromARGB(255, 208, 188, 188)),
             Text(
-              category['descriptions'][index],
+              category.description,
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
@@ -48,7 +42,7 @@ class BookingCard extends StatelessWidget {
               ),
             ),
             Text(
-              'Price: \$${category['prices'][index]}',
+              'Price: \$${category.price}',
               style: const TextStyle(
                 color: Color.fromARGB(255, 95, 65, 65),
                 fontSize: 16,
@@ -56,9 +50,7 @@ class BookingCard extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-              onPressed: () {
-                _showDatePickerDialog(context, ref, category, index);
-              },
+              onPressed: showDatePickerCallback,
               child: const Text(
                 'BOOK',
                 style: TextStyle(color: Color.fromARGB(255, 99, 76, 76)),
@@ -72,25 +64,6 @@ class BookingCard extends StatelessWidget {
       ),
     );
   }
-
-  void _showDatePickerDialog(BuildContext context, WidgetRef ref, Map<String, dynamic> category, int index) async {
-    DateTime? selectedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 365)),
-    );
-
-    if (selectedDate != null) {
-      final booking = Booking(
-        title: category['title'],
-        image: category['images'][index],
-        description: category['descriptions'][index],
-        price: category['prices'][index],
-        bookingDate: selectedDate,
-      );
-
-      await ref.read(bookingProvider.notifier).addBooking(booking);
-    }
-  }
 }
+
+

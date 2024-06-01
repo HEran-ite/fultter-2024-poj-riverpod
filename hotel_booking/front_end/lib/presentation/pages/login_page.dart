@@ -3,16 +3,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hotel_booking/domain/entities/user_data.dart';
 import 'package:hotel_booking/presentation/providers/login_provider.dart';
+import 'package:hotel_booking/presentation/providers/user_provider.dart';
 import 'package:hotel_booking/presentation/widgets/textfiels.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import 'package:jwt_decode/jwt_decode.dart';
+final storage = FlutterSecureStorage();
 
 class LoginPage extends ConsumerWidget {
-  const LoginPage({Key? key});
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final loginState = ref.watch(loginNotifierProvider);
     final loginNotifier = ref.read(loginNotifierProvider.notifier);
 
     // Determine screen size
@@ -94,22 +95,12 @@ class LoginPage extends ConsumerWidget {
             ElevatedButton(
               onPressed: () async {
                 try {
-                  final result = await loginNotifier.login();
-                  final token = result['token'] as String;
-                  final user = result['user'] as User;
-
-                  // Decode the token and access the user role
-                  Map<String, dynamic> payload = Jwt.parseJwt(token);
-                  String role = payload['role'];
-
-                  print('Navigating based on role: $role');
-
-                  if (role == 'admin') {
+                  await ref.read(userProvider.notifier).login(loginNotifier.state.email, loginNotifier.state.password);
+                  final userRole = ref.read(userProvider).role;
+                  if (userRole == 'admin') {
                     context.go('/admin_page');
-                  } else if (role == 'customer') {
-                    context.go('/home_page');
                   } else {
-                    throw Exception('Unknown role');
+                    context.go('/home_page');
                   }
                 } catch (e) {
                   ScaffoldMessenger.of(context).showSnackBar(

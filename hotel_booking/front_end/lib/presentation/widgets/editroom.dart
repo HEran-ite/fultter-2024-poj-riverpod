@@ -2,15 +2,15 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_booking/domain/entities/room.dart';
-import 'package:hotel_booking/presentation/pages/rooms_catagories.dart';
+import 'package:hotel_booking/presentation/providers/rooms_provider.dart';
 import 'package:image_picker/image_picker.dart';
 
-
-void showEditDialog(BuildContext context, WidgetRef ref, RoomCategory category, int itemIndex) {
-  TextEditingController descriptionController = TextEditingController(text: category.descriptions[itemIndex]);
-  TextEditingController priceController = TextEditingController(text: category.prices[itemIndex].toString());
+void showEditDialog(BuildContext context, WidgetRef ref, RoomCategory category) {
+  TextEditingController descriptionController = TextEditingController(text: category.description);
+  TextEditingController priceController = TextEditingController(text: category.price.toString());
   String? imagePath;
   String? base64Image;
+  String selectedCategory = category.category;
 
   showDialog(
     context: context,
@@ -37,6 +37,19 @@ void showEditDialog(BuildContext context, WidgetRef ref, RoomCategory category, 
                 },
                 child: const Text('Select Image'),
               ),
+              DropdownButtonFormField<String>(
+                value: selectedCategory,
+                items: <String>['VIP', 'Middle', 'Economy'].map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  selectedCategory = newValue!;
+                },
+                decoration: const InputDecoration(labelText: 'Category'),
+              ),
               TextField(
                 controller: descriptionController,
                 decoration: const InputDecoration(labelText: 'Description'),
@@ -60,14 +73,16 @@ void showEditDialog(BuildContext context, WidgetRef ref, RoomCategory category, 
             onPressed: () {
               final description = descriptionController.text;
               final price = int.parse(priceController.text);
-              final updatedImage = base64Image ?? category.images[itemIndex];
+              final updatedImage = base64Image ?? category.image;
+              final id = category.id; // Adding the id argument
 
               ref.read(roomCategoriesProvider.notifier).updateCategory(
-                category.id,
+                id,
                 category.title,
                 description,
                 price,
                 updatedImage,
+                selectedCategory // Adding the missing category argument
               );
               Navigator.of(context).pop();
             },

@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotel_booking/application/use_cases/user_api_provider.dart';
 import 'package:hotel_booking/domain/entities/user_data.dart';
-import 'package:hotel_booking/infrastructure/api/user_api_provider.dart';
-import 'package:jwt_decode/jwt_decode.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class LoginState {
   final String email;
@@ -48,14 +48,14 @@ class LoginNotifier extends StateNotifier<LoginState> {
     state = state.copyWith(password: password);
   }
 
-  Future<Map<String, dynamic>> login() async {
+  Future<void> login() async {
     print('Attempting login...');
     state = state.copyWith(isLoading: true, error: null);
     try {
       final token = await _userApi.login(state.email, state.password);
       print('Token: $token');
 
-      Map<String, dynamic> payload = Jwt.parseJwt(token);
+      Map<String, dynamic> payload = JwtDecoder.decode(token);
       print('Decoded Token Payload: $payload');
 
       String role = payload['role'];
@@ -73,7 +73,6 @@ class LoginNotifier extends StateNotifier<LoginState> {
       print('User object: $user');
 
       state = state.copyWith(user: user, isLoading: false);
-      return {'token': token, 'user': user};
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());
       print('Failed to login: $e');

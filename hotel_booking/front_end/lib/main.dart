@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hotel_booking/presentation/providers/user_provider.dart';
 import 'presentation/pages/admin_page.dart';
 import 'presentation/pages/booking_page.dart';
 import 'presentation/pages/feedback_page.dart';
@@ -72,10 +73,15 @@ class MyApp extends ConsumerWidget {
       ],
       initialLocation: '/',
     );
-
+    final userNotifier = ref.read(userProvider.notifier);
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       routerConfig: router,
+      theme: ThemeData(
+       colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 69, 54, 50),),
+       useMaterial3: true,
+     ),
+
     );
   }
 }

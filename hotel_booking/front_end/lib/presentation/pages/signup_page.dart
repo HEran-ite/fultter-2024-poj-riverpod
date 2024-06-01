@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_booking/domain/entities/signup.dart';
-import 'package:hotel_booking/infrastructure/api/user_api_provider.dart';
 import 'package:hotel_booking/presentation/providers/signup_provider.dart';
 import 'package:hotel_booking/presentation/widgets/textfiels.dart';
+import 'package:hotel_booking/presentation/providers/user_provider.dart';
 
 final signupNotifierProvider =
     StateNotifierProvider<SignupNotifier, SignupState>((ref) => SignupNotifier());
@@ -130,14 +130,14 @@ class SignUpPage extends ConsumerWidget {
             ElevatedButton(
               onPressed: () async {
                 try {
-                  await ref.read(userApiProvider).signup(signupState);
-                  if (signupState.isAdmin) {
+                  await ref.read(userProvider.notifier).signup(signupState);
+                  final userRole = ref.read(userProvider).role;
+                  if (userRole == 'admin') {
                     context.go('/admin_page');
                   } else {
                     context.go('/home_page');
                   }
                 } catch (e) {
-                  // Handle sign-up error
                   print('Sign-up failed: $e');
                 }
               },

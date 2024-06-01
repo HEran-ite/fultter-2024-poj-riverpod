@@ -1,9 +1,7 @@
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotel_booking/domain/entities/signup.dart';
 
-
-
-// StateNotifier class for Signup
 class SignupNotifier extends StateNotifier<SignupState> {
   SignupNotifier() : super(SignupState());
 
@@ -27,3 +25,7 @@ class SignupNotifier extends StateNotifier<SignupState> {
     state = state.copyWith(confirmPassword: confirmPassword);
   }
 }
+
+final signupNotifierProvider = StateNotifierProvider<SignupNotifier, SignupState>(
+  (ref) => SignupNotifier(),
+);
